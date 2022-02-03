@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css')}}">
+    {% block head %}{% endblock%}
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">صفحه نخست </a>
+            </li>
+        </ul>
+    </div>
+
+    {% if current_user.is_authenticated %}
+    <span style="color: white">{{current_user.username}}, خوش آمدید!  </span>
+    <a class="navbar-brand" href="{{url_for('logout_page')}}" style="margin-right: 20px"> خروج</a>
+    {% else %}
+    <a class="navbar-brand" href="{{url_for('register_page')}}">ثبت نام</a>
+    <a class="navbar-brand" href="{{url_for('login_page')}}">ورود</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% endif %}
+</nav>
+
+<main role="main" class="container">
+    <div class="starter-template">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category,message in messages %}
+        <div class="alert alert-{{category}}">
+            <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block body %}
+        {% endblock%}
+    </div>
+</main>
+
+<script src="{{ url_for('static',filename='js/jquery-3.3.1.slim.min.js')}}"></script>
+<script src="{{ url_for('static',filename='js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for('static',filename='js / jquery - 3.3.1.slim.min.js')}}"><\/script>')</script>
+<script src="{{ url_for('static',filename='js/jquery-3.3.1.slim.min.js')}} "
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+        crossorigin="anonymous"></script>
+</body>
+</html>

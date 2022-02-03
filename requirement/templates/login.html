@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head%}
+{% endblock %}
+
+{% block body%}
+<h1> ورود کاربران </h1>
+
+<form method="POST" class="form-register " style="color:black">
+    {{ form.hidden_tag() }}
+    {{ form.username.label(class="text-right") }}
+    {{ form.username(class="form-control", placeholder="نام کاربری") }}
+
+    {{ form.password.label() }}
+    {{ form.password(class="form-control", placeholder="رمز عبور") }}
+<br>
+    {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+</form>
+
+{% endblock %}
