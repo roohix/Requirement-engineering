@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head%}
+{% endblock %}
+
+{% block body%}
+<h1> ثبت نام </h1>
+
+<form method="POST" class="form-register" style="color:black">
+    {{ form.hidden_tag() }}
+    {{ form.username.label() }}
+    {{ form.username(class="form-control", placeholder="نام کاربری") }}
+
+    {{ form.email.label() }}
+    {{ form.email(class="form-control", placeholder="ایمیل") }}
+
+    {{ form.password1.label() }}
+    {{ form.password1(class="form-control", placeholder="رمزعبور") }}
+
+    {{ form.password2.label() }}
+    {{ form.password2(class="form-control", placeholder="تکرار رمز عبور") }}
+<br>
+    {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+</form>
+
+{% endblock %}
