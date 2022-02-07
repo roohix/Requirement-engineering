@@ -1,0 +1,115 @@
+{% extends 'base.html'%}
+
+{% block head%}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/datatables.css')}}">
+<title>پروژه ها</title>
+{% endblock%}
+
+
+{% block body%}
+
+<div class="row ml-1 mb-5">
+
+    <h1 class="mr-auto mr-3  font-weight-bolder font">لیست پروژه ها</h1>
+    <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#exampleModal">
+        پروژه جدید
+    </button>
+</div>
+
+
+<div class=" ">
+    <table id="req" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th> </th>
+            <th>عنوان</th>
+            <th>توضیحات</th>
+            <th>نیازمندی ها</th>
+            <th>  خروجی</th>
+            <th>   </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in projects %}
+        <tr>
+            <td>{{ loop.index  }}</td>
+            <td>{{p.name}}</td>
+            <td>{{p.description}}</td>
+            <td><a href=" {{ url_for('requirement_page',project=p.id)}}" class="btn btn-success">  نیازمندی ها </a></td>
+            <td>
+                <a href=" {{ url_for('export_json2_page',project=p.id)}}" class="btn btn-sm btn-info"> JSON </a></td><td>
+                <a href=" {{ url_for('project_remove',project_id=p.id)}}" class="btn btn-sm btn-danger"> حذف </a></td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" class="form-register" style="color:black">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">پروژه جدید</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form.hidden_tag() }}
+                    {{ form.name.label() }}
+                    {{ form.name(class="form-control", placeholder="عنوان") }}
+
+                    {{ form.description.label() }}
+                    {{ form.description(class="form-control", placeholder="توضیحات") }}
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static',filename='js/jquery.js')}}"></script>
+<script src="{{ url_for('static',filename='js/datatables.js')}}"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#req').DataTable({
+            dom: 'Bfrtipl', aLengthMenu: [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]],
+            language: {
+                "url": "{{ url_for('static',filename='js/Persian.json')}}"
+            },
+            buttons: [
+                {extend: 'copy'},
+
+                {extend: 'excel', title: 'ExampleFile'},
+                {extend: 'pdf', title: 'ExampleFile'},
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+    });
+
+
+</script>
+{% endblock%}
