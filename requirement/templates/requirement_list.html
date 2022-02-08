@@ -1,0 +1,283 @@
+{% extends 'base.html'%}
+
+{% block head%}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/datatables.css')}}">
+
+<title>لیست نیازمندی ها</title>
+{% endblock%}
+
+
+{% block body%}
+
+<div class="row ml-1 mb-5">
+
+    <h1 class="mr-auto mr-3  font-weight-bolder font">لیست نیازمندی های پروژه   {{my_project.name}}</h1>
+    <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#exampleModal">
+        نیازمندی جدید
+    </button>
+    <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#exampleModal2">
+        فیلتر
+    </button>
+</div>
+
+<div class=" ">
+    <table id="req" width="100%">
+        <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>سطح</th>
+            <th>اولویت</th>
+            <th>نوع نیازمندی</th>
+            <th>تغییرات</th>
+            <th>بازبینی</th>
+            <th>ارزیابی</th>
+            <th>روش ارزیابی</th>
+            <th>فاکتور کیفی</th>
+            <th></th>
+
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="POST" class="form-register" style="color:black">
+                <div class="modal-header">
+                    <h2 class="modal-title font-weight-bold" id="exampleModalLabel">نیازمندی جدید</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-sm-12  ">
+                                <div class="row mb-5">
+                                    <div class="col-12 col-sm-12">
+                                        {{ form.hidden_tag() }}
+                                        {{ form.title.label() }}
+                                        {{ form.title(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-5">
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.level.label() }}
+                                        {{ form.level(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.priority.label() }}
+                                        {{ form.priority(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.req_type.label() }}
+                                        {{ form.req_type(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.changes.label() }}
+                                        {{ form.changes(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                </div>
+                                <div class="row mb-5">
+
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.review.label() }}
+                                        {{ form.review(class="form-control", placeholder="عنوان") }}
+                                    </div>
+
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.evaluation.label() }}
+                                        {{ form.evaluation(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.evaluation_method.label() }}
+                                        {{ form.evaluation_method(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ form.quality_factor.label() }}
+                                        {{ form.quality_factor(class="form-control", placeholder="عنوان") }}
+                                    </div>
+
+                                </div>
+                                <div class="row mb-5">
+                                    <div class="col-12 col-sm-12">
+                                        {{ form.hidden_tag() }}
+                                        {{ form.description.label() }}
+                                        {{ form.description(class="form-control", placeholder="....") }}
+                                    </div>
+                                    <div class="col-12 col-sm-12">
+                                        {{ form.hidden_tag() }}
+                                        {{ form.parent.label() }}
+                                        {{ form.parent(class="form-control", placeholder="....") }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method='POST' class="form-register" style="color:black">
+                <div class="modal-header">
+                    <h2 class="modal-title font-weight-bold" id="exampleModalLabel2"> فیلتر نیازمندی ها</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        {{ filter_form.hidden_tag() }}
+
+                        <div class="row">
+                            <div class="col-sm-12  ">
+
+                                <div class="row mb-5">
+
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.priority.label() }}
+                                        {{ filter_form.priority(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.req_type.label() }}
+                                        {{ filter_form.req_type(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.changes.label() }}
+                                        {{ filter_form.changes(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.review.label() }}
+                                        {{ filter_form.review(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                </div>
+                                <div class="row mb-5">
+
+
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.evaluation.label() }}
+                                        {{ filter_form.evaluation(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.evaluation_method.label() }}
+                                        {{ filter_form.evaluation_method(class="form-control", placeholder="عنوان")
+                                        }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.quality_factor.label() }}
+                                        {{ filter_form.quality_factor(class="form-control", placeholder="عنوان") }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        {{ filter_form.check.label() }}
+                        {{ filter_form.check(class="" ) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{filter_form.submit2(class="btn btn-lg btn-block btn-primary")}}
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ url_for('static',filename='js/jquery.js')}}"></script>
+<script src="{{ url_for('static',filename='js/datatables.js')}}"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script src="{{ url_for('static',filename='js/treetable.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('#req').treeTable({
+            dom: 'Bfrtipl', aLengthMenu: [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]],
+
+            "ajax": '/json/{{my_project.id}}',
+            "columnDefs": [ {
+        "targets": -1,
+        "data": null,
+        "defaultContent": "<button>Click!</button>"
+    } ],
+            "collapsed": true,
+            "columns": [
+
+                {
+                    "data": "title"
+                },
+                {
+                    "data": "level"
+                },
+                {
+                    "data": "priority"
+                },
+                {
+                    "data": "req_type"
+                },
+                {
+                    "data": "changes"
+                },
+                {
+                    "data": "review"
+                },
+                {
+                    "data": "evaluation"
+                },
+                {
+                    "data": "evaluation_method"
+                },
+                {
+                    "data": "quality_factor"
+                },
+                {
+                    "data":"button"
+                }
+
+
+            ],
+            "order": [[1, 'asc']],
+
+             buttons: [
+
+                {extend: 'copy'},
+
+                {extend: 'excel', title: 'ExampleFile'},
+                {extend: 'pdf', title: 'ExampleFile'},
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ],
+            language: {
+                "url": "{{ url_for('static',filename='js/Persian.json')}}"
+            },
+        });
+    });
+</script>
+{% endblock%}

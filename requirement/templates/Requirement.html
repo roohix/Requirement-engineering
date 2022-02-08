@@ -1,0 +1,273 @@
+{% extends 'base.html'%}
+
+{% block head%}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/datatables.css')}}">
+<title> نیازمندی ها</title>
+{% endblock%}
+
+
+{% block body%}
+
+<div class="row ml-1 mb-5">
+
+    <h1 class="mr-auto mr-3  font-weight-bolder font">نتیجه فیلتر نیازمندی های پروژه {{my_project.name}}</h1>
+    <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#exampleModal2">
+        فیلتر
+    </button>
+</div>
+
+
+<div class=" ">
+    <table id="req" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>ردیف</th>
+            <th>سطح</th>
+            <th>عنوان</th>
+            <th>اولویت</th>
+            <th>نوع نیازمندی</th>
+            <th>تغییرات</th>
+            <th>بازبینی</th>
+            <th>ارزیابی</th>
+            <th>روش ارزیابی</th>
+            <th>فاکتور کیفی</th>
+            <th>تنظیمات</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in requirement %}
+        <tr>
+            <td style="width: 1%">{{ loop.index }}</td>
+            <td style="width: 2%">
+                {% if r.parent_id == 0 %}
+                R
+                {% else %}
+                SR
+                {% endif %}
+            </td>
+            <td style="text-align: right;width: 40%">{{r.title}}</td>
+            <td>
+                {% if r.priority == 1 %}
+                کلیدی
+                {% elif r.priority == 2 %}
+                ضروری
+                {% elif r.priority == 3 %}
+                اختیاری
+                {% endif %}
+            </td>
+            <td>{% if r.req_type == 1 %}
+                کارکردی
+                {% elif r.req_type == 2 %}
+                غیرکارکردی
+                {% endif %}
+            </td>
+            <td>
+                {% if r.changes == 1 %}
+                سیمانی
+                {% elif r.changes == 2 %}
+                بسامدی
+                {% endif %}
+            </td>
+            <td>{% if r.review == 1 %}
+                رد
+                {% elif r.review == 2 %}
+                قبول
+                {% elif r.review == 3 %}
+                انتظار
+                {% endif %}
+            </td>
+            <td>{% if r.evaluation == 1 %}
+                رد
+                {% elif r.evaluation == 2 %}
+                قبول
+                {% elif r.evaluation == 3 %}
+                انتظار
+                {% elif r.evaluation == 4 %}
+                ملاقات شده
+                {% endif %}
+            </td>
+            <td>
+                {% if r.evaluation_method == 1 %}
+                آنالیز
+                {% elif r.evaluation_method == 2 %}
+                شبیه سازی
+                {% elif r.evaluation_method == 3 %}
+                بازرسی
+                {% elif r.evaluation_method == 4 %}
+                تست سیستم
+                {% elif r.evaluation_method == 5 %}
+                تست کامپوننت
+                {% endif %}
+            </td>
+            <td>{% if r.quality_factor == 1 %}
+                AVAILABILITY
+                {% elif r.quality_factor == 2 %}
+                FLEXBILITY
+                {% elif r.quality_factor == 3 %}
+                INTEGRITY
+                {% elif r.quality_factor == 4 %}
+                MAINTAINABILITY
+                {% elif r.quality_factor == 5 %}
+                PORTABILITY
+                {% elif r.quality_factor == 6 %}
+                RELIABILITY
+                {% elif r.quality_factor == 7 %}
+                SAFETY
+                {% elif r.quality_factor == 8 %}
+                SECURITY
+                {% elif r.quality_factor == 9 %}
+                SUPPORTABILITY
+                {% elif r.quality_factor == 10 %}
+                SUSTAINABILITY
+                {% elif r.quality_factor == 11 %}
+                USABILITY
+                {% endif %}
+            </td>
+            <td style="width: 10%">
+                <a href="{{ url_for('edit_req',req=r.id)}}" class="btn btn-sm  btn-info m-1"
+                   style="width:60px">ویرایش</a>
+                <a href="{{ url_for('requirement_remove',req=r.id)}}" class="btn btn-sm  btn-danger m-1"
+                   style="width:60px">حذف</a>
+            </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method='POST' class="form-register" style="color:black">
+                <div class="modal-header">
+                    <h2 class="modal-title font-weight-bold" id="exampleModalLabel2"> فیلتر نیازمندی ها</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        {{ filter_form.hidden_tag() }}
+
+                        <div class="row">
+                            <div class="col-sm-12  ">
+
+                                <div class="row mb-5">
+
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.priority.label() }}
+                                        {{ filter_form.priority(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.req_type.label() }}
+                                        {{ filter_form.req_type(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.changes.label() }}
+                                        {{ filter_form.changes(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.review.label() }}
+                                        {{ filter_form.review(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                </div>
+                                <div class="row mb-5">
+
+
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.evaluation.label() }}
+                                        {{ filter_form.evaluation(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.evaluation_method.label() }}
+                                        {{ filter_form.evaluation_method(class="form-control", placeholder="عنوان") }}
+                                    </div>
+                                    <div class="col-3 col-sm-3">
+                                        {{ filter_form.quality_factor.label() }}
+                                        {{ filter_form.quality_factor(class="form-control", placeholder="عنوان") }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        {{ filter_form.check.label() }}
+                        {{ filter_form.check(class="" ) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{filter_form.submit2(class="btn btn-lg btn-block btn-primary")}}
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ url_for('static',filename='js/jquery.js')}}"></script>
+<script src="{{ url_for('static',filename='js/datatables.js')}}"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#req').DataTable({
+            dom: 'Bfrtipl', aLengthMenu: [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]],
+            language: {
+                "url": "{{ url_for('static',filename='js/Persian.json')}}"
+            },
+            columnDefs: [
+                 {
+                "targets": [ 3,4,5,6,7,8,9 ],
+                "visible": false,
+                "searchable": false
+            },
+            ],
+
+            buttons: [
+                {
+                    extend: 'colvisGroup',
+                    text: 'فقط عنوان',
+                    show: [0, 1, 2, 10],
+                    hide: [3, 4, 5, 6, 7, 8, 9]
+                },
+
+                {
+                    extend: 'colvisGroup',
+                    text: 'ویژگی ها',
+                    show: ':hidden'
+                },
+                {extend: 'copy'},
+
+                {extend: 'excel', title: 'ExampleFile'},
+                {extend: 'pdf', title: 'ExampleFile'},
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+    });
+
+
+</script>
+{% endblock%}

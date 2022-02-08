@@ -1,0 +1,92 @@
+{% extends 'base.html'%}
+
+{% block head%}
+<title>   ویرایش نیازمندی</title>
+{% endblock%}
+
+
+{% block body%}
+<div class="row ml-1 mb-5">
+
+    <h1 class="  text-center  font-weight-bolder  ">ویرایش نیازمندی </h1>
+
+</div>
+
+<form method="POST" class="form-register" style="color:black">
+
+    <div class="modal-body">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12  ">
+                    <div class="row mb-5">
+                        <div class="col-12 col-sm-12">
+                            {{ form.hidden_tag() }}
+                            {{ form.title.label() }}
+                            {{ form.title(class="form-control", placeholder="عنوان") }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-5">
+                        <div class="col-3 col-sm-3">
+                            {{ form.level.label() }}
+                            {{ form.level(class="form-control", placeholder="عنوان") }}
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            {{ form.priority.label() }}
+                            {{ form.priority(class="form-control", placeholder="عنوان") }}
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            {{ form.req_type.label() }}
+                            {{ form.req_type(class="form-control", placeholder="عنوان") }}
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            {{ form.changes.label() }}
+                            {{ form.changes(class="form-control", placeholder="عنوان") }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+
+                        <div class="col-3 col-sm-3">
+                            {{ form.review.label() }}
+                            {{ form.review(class="form-control", placeholder="عنوان") }}
+                        </div>
+
+                        <div class="col-3 col-sm-3">
+                            {{ form.evaluation.label() }}
+                            {{ form.evaluation(class="form-control", placeholder="عنوان") }}
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            {{ form.evaluation_method.label() }}
+                            {{ form.evaluation_method(class="form-control", placeholder="عنوان") }}
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            {{ form.quality_factor.label() }}
+                            {{ form.quality_factor(class="form-control", placeholder="عنوان") }}
+                        </div>
+
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col-12 col-sm-12">
+                            {{ form.hidden_tag() }}
+                            {{ form.description.label() }}
+                            {{ form.description(class="form-control", placeholder="....") }}
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            {{ form.parent.label() }}
+                            {{ form.parent(class="form-control", placeholder="....") }}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+    </div>
+
+</form>
+
+
+{% endblock%}
