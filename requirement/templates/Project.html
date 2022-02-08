@@ -21,25 +21,25 @@
     <table id="req" class="display" style="width:100%">
         <thead>
         <tr>
-            <th> </th>
+            <th></th>
             <th>عنوان</th>
             <th>توضیحات</th>
             <th>نیازمندی ها</th>
-            <th>  خروجی</th>
-            <th>   </th>
+            <th> خروجی</th>
+            <th></th>
 
         </tr>
         </thead>
         <tbody>
         {% for p in projects %}
         <tr>
-            <td>{{ loop.index  }}</td>
+            <td>{{ loop.index }}</td>
             <td>{{p.name}}</td>
             <td>{{p.description}}</td>
-            <td><a href=" {{ url_for('requirement_page',project=p.id)}}" class="btn btn-success">  نیازمندی ها </a></td>
-            <td>
-                <a href=" {{ url_for('export_json2_page',project=p.id)}}" class="btn btn-sm btn-info"> JSON </a></td><td>
-                <a href=" {{ url_for('project_remove',project_id=p.id)}}" class="btn btn-sm btn-danger"> حذف </a></td>
+            <td><a href=" {{ url_for('requirement_page',project=p.id)}}" class="btn btn-success"> نیازمندی ها </a></td>
+            <td> <a href=" {{ url_for('export_json2_page',project=p.id)}}" class="btn btn-sm btn-info"> JSON </a>
+                <a href=" {{ url_for('export_html',project_id=p.id)}}" class="btn btn-sm btn-primary"> HTML </a></td>
+            <td> <a href=" {{ url_for('project_remove',project_id=p.id)}}" class="btn btn-sm btn-danger"> حذف </a></td>
 
         </tr>
         {% endfor %}
