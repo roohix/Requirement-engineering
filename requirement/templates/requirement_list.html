@@ -3,7 +3,6 @@
 {% block head%}
 <link rel="stylesheet" href="{{ url_for('static',filename='css/datatables.css')}}">
 
-
 <title> نیازمندی ها</title>
 {% endblock%}
 
@@ -40,7 +39,6 @@
         </thead>
     </table>
 </div>
-
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -209,13 +207,11 @@
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="{{ url_for('static',filename='js/treetable.js')}}"></script>
 <script>
-
-
     $(document).ready(function () {
         $('#req').treeTable({
             dom: 'Bfrtipl', aLengthMenu: [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]],
 
-            "ajax": 'http://localhost:5000/json/{{my_project.id}}',
+            "ajax": '/json/{{my_project.id}}',
             "columnDefs": [ {
         "targets": -1,
         "data": null,
@@ -281,13 +277,7 @@
             language: {
                 "url": "{{ url_for('static',filename='js/Persian.json')}}"
             },
-
-
         });
-
-
     });
-
-
 </script>
 {% endblock%}

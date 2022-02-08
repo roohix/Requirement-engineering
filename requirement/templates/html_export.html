@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css')}}">
+
+</head>
+
+<body>
+
+
+<main role="main" class="container">
+    <div class="starter-template">
+    <h1 class="mb-5 font-weight-bold">نیازمندی های پروژه {{project.name}}</h1>
+{% for r in req %}
+
+<table class="table table-bordered text-left mb-5">
+    <thead>
+    <tr>
+        <th class="tg-0lax" colspan="1">{{ r.level }}-{{ r.tt_key }}</th>
+        <th class="tg-0lax" colspan="4">عنوان:  {{ r.title }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0lax">  اولویت : {{ r.priority}}</td>
+        <td class="tg-0lax">نوع نیازمندی : {{r.req_type}}</td>
+        <td class="tg-0lax">تغییرات: {{r.changes}}</td>
+        <td class="tg-0lax">وضعیت بازبینی: {{r.review}}</td>
+    </tr>
+    <tr>
+        <td class="tg-0lax">وضعیت ارزیابی: {{r.evaluation}}</td>
+        <td class="tg-0lax">روش ارزیابی: {{r.evaluation_method}}</td>
+        <td class="tg-0lax" colspan="2">فاکتور کیفی: {{r.quality_factor}}</td>
+
+    </tr>
+    <tr>
+        <td class="tg-0lax" colspan="4"> پیوست: {{r.description}}</td>
+    </tr>
+
+    </tbody>
+</table>
+
+{% endfor %}
+    </div>
+</main>
+
+
+<script src="{{ url_for('static',filename='js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for('static',filename='js / jquery - 3.3.1.slim.min.js')}}"><\/script>')</script>
+<script src="{{ url_for('static',filename='js/jquery-3.3.1.slim.min.js')}} "
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+

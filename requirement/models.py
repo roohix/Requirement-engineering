@@ -9,6 +9,7 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=30), nullable=False, unique=False)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
@@ -31,7 +32,7 @@ class Project(db.Model):
     name = db.Column(db.String(length=100), nullable=False)
     description = db.Column(db.String(length=1024))
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
-    project = db.relationship('Requirement', backref='requirement_owner', lazy=True)
+    project = db.relationship('Requirement', backref='requirement_owner', cascade="all,delete", lazy=True)
 
 
 class Requirement(db.Model):
@@ -50,5 +51,5 @@ class Requirement(db.Model):
 
     parent_id = db.Column(db.Integer, db.ForeignKey('requirement.id'))
 
-    parent = db.relationship('Requirement',remote_side = 'Requirement.id',back_populates = 'children', lazy=True)
-    children = db.relationship('Requirement',  back_populates = 'parent', lazy=True)
+    parent = db.relationship('Requirement', remote_side='Requirement.id', back_populates='children', lazy=True)
+    children = db.relationship('Requirement', back_populates='parent', lazy=True)

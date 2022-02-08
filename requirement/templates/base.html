@@ -11,6 +11,7 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        {% if current_user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/">صفحه نخست </a>
@@ -19,13 +20,21 @@
                 <a class="nav-link" href="/project"> پروژه ها   </a>
             </li>
         </ul>
+        {% else %}
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">مدیریت نیازمندی ها </a>
+            </li>
+
+        </ul>
+        {% endif %}
     </div>
 
     {% if current_user.is_authenticated %}
-    <span style="color: white">{{current_user.username}}, خوش آمدید!  </span>
+    <span style="color: white">{{current_user.name}}  خوش آمدید!  </span>
     <a class="navbar-brand" href="{{url_for('logout_page')}}" style="margin-right: 20px"> خروج</a>
     {% else %}
-    <a class="navbar-brand" href="{{url_for('register_page')}}">ثبت نام</a>
+
     <a class="navbar-brand" href="{{url_for('login_page')}}">ورود</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
